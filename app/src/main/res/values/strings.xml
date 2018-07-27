@@ -1,3 +1,23 @@
 <resources>
     <string name="app_name">ListViewDemo</string>
+
+    <string-array name="countryList">
+        <item>India</item>
+        <item>Indonasia</item>
+        <item>South Africa</item>
+        <item>Afghanistan</item>
+        <item>Algeria</item>
+        <item>Argentina</item>
+        <item>Australia</item>
+        <item>Bhutan</item>
+        <item>Brazil</item>
+        <item>China</item>
+        <item>Canada</item>
+        <item>Croatia</item>
+        <item>Cyprus</item>
+        <item>Egypt</item>
+        <item>France</item>
+        <item>Finland</item>
+    </string-array>
+
 </resources>
