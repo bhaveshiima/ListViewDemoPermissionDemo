@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
                     arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),(0))
             */
 
-            // Request for Persmission [ END ]
+            // Request for Persmission [ END rt]
         }
 
         readFile() // call the readFile
