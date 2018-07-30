@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.vsllistview.view.*
 import java.io.File
 
 class MainActivity : AppCompatActivity() {
@@ -18,22 +19,26 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        // Get Permission Status
         var permissionStatus = ContextCompat.checkSelfPermission(this,Manifest.permission.READ_EXTERNAL_STORAGE)
 
+        // Check the Persmission Status (If Granted or Not)
         if(permissionStatus == PackageManager.PERMISSION_GRANTED){
             readFile()
         }else{
             // Request for Persmission [ START ]
-
-           /* ActivityCompat.requestPermissions(this,
-                    arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),(0))
-            */
+            ActivityCompat.requestPermissions(this,
+                    arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
+                    0)
 
             // Request for Persmission [ END rt]
         }
 
         readFile() // call the readFile
     }
+
+
+
 
     // Create function to read files from storage [ START ]
     fun readFile(){
@@ -52,12 +57,43 @@ class MainActivity : AppCompatActivity() {
         var files = f.list()
 
         // arrary to object using ArraryAdepter
+        /*
         var fadpter = ArrayAdapter<String>(this@MainActivity,
                 android.R.layout.simple_list_item_single_choice,files)
+        */
+
+        var fadpter = ArrayAdapter<String>(this@MainActivity,
+                R.layout.vsllistview,files)
 
         lview.adapter = fadpter
+
+        // Display with Item you selected [ START ]
+        lview.setOnItemClickListener { adapterView, view, i, l ->
+            Toast.makeText(this@MainActivity,
+                    view.tvlist1.text.toString(),
+                    Toast.LENGTH_SHORT).show()
+        }
+        // Display with Item you selected [ END ]
     }
     // Create function to read files from storage [ END ]
+
+
+    // Override the onPermissionResult to display result after Allow the permission [ START ]
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        if(grantResults[0] == PackageManager.PERMISSION_GRANTED){
+            readFile()
+        }else{
+            Toast.makeText(this ,
+                            "You cannot read, first need to accept the permission",
+                            Toast.LENGTH_SHORT).show()
+        }
+    }
+
+
+
 
     // Get Country List
     /*
@@ -70,4 +106,6 @@ class MainActivity : AppCompatActivity() {
     }
     */
 
-}
+
+
+}// Main Actvity Class
