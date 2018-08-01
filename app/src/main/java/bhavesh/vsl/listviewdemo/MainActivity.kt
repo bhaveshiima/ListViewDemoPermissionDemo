@@ -12,8 +12,11 @@ import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.vsllistview.view.*
 import java.io.File
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
+
+    var stack = Stack<String>() // create stack
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,6 +43,7 @@ class MainActivity : AppCompatActivity() {
 
 
 
+
     // Create function to read files from storage [ START ]
     fun readFile(){
 
@@ -52,6 +56,8 @@ class MainActivity : AppCompatActivity() {
             path = "/storage/emulated/0/"
             f = File(path)
         }
+
+        stack.add(path) // Add element into stack
 
         // all files store into Arrary
         var files = f.list()
@@ -72,6 +78,38 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this@MainActivity,
                     view.tvlist1.text.toString(),
                     Toast.LENGTH_SHORT).show()
+
+
+            // Now of click on any list name then it will open inner folders and files [ START ]
+            path = path + view.tvlist1.text.toString() // it will add which item clicked
+            // Now check it's file or folder
+            var f_new = File(path)
+            if(f_new.isDirectory){
+                path = path + "/"
+                stack.add(path) // Add element into stack
+                // It's Folder
+                var files_new = f_new.list()
+                var fadpter_new = ArrayAdapter<String>(this@MainActivity,
+                        R.layout.vsllistview,files_new)
+
+                lview.adapter = fadpter_new
+
+            }else{
+                Toast.makeText(this ,
+                        "OOPS..!!..It's File",
+                        Toast.LENGTH_SHORT).show()
+            }
+
+
+
+
+
+
+
+            // Now of click on any list name then it will open inner folders and files [ END ]
+
+
+
         }
         // Display with Item you selected [ END ]
     }
@@ -79,7 +117,6 @@ class MainActivity : AppCompatActivity() {
 
 
     // Override the onPermissionResult to display result after Allow the permission [ START ]
-
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 
@@ -91,6 +128,38 @@ class MainActivity : AppCompatActivity() {
                             Toast.LENGTH_SHORT).show()
         }
     }
+    // Override the onPermissionResult to display result after Allow the permission [ END ]
+
+
+
+
+
+    // Override the onBackPress method for back button [ START ]
+    override fun onBackPressed() {
+       // super.onBackPressed()
+
+        if(!stack.empty()) {  // If stack is not empty then we will perform this operation
+            var path = stack.pop()
+            var f_new = File(path)
+            var files_new = f_new.list()
+            var fadpter_new = ArrayAdapter<String>(this@MainActivity,
+                    R.layout.vsllistview, files_new)
+            lview.adapter = fadpter_new
+        }else{
+            //Close the application
+            finish()
+        }
+
+
+    }
+    // Override the onBackPress method for back button [ END ]
+
+
+
+
+
+
+
 
 
 
