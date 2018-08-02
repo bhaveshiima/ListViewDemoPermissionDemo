@@ -148,7 +148,7 @@ class MainActivity : AppCompatActivity() {
         }else{
             //Close the application [ START ]
             finish()
-            //Close the application [ END ]
+            //Close the application [ END 123 ]
         }
 
 
