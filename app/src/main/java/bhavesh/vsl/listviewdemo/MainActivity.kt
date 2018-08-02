@@ -146,8 +146,9 @@ class MainActivity : AppCompatActivity() {
                     R.layout.vsllistview, files_new)
             lview.adapter = fadpter_new
         }else{
-            //Close the application
+            //Close the application [ START ]
             finish()
+            //Close the application [ END ]
         }
 
 
